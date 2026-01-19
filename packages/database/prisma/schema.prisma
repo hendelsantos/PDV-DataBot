@@ -1,0 +1,263 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// AUTHENTICATION & USERS
+// ============================================
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  phone     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  subscription  Subscription?
+  botInstances  BotInstance[]
+  products      Product[]
+  customers     Customer[]
+  orders        Order[]
+  sales         Sale[]
+
+  @@map("users")
+}
+
+// ============================================
+// SUBSCRIPTIONS & BILLING
+// ============================================
+
+enum Plan {
+  BASIC
+  PROFESSIONAL
+  ENTERPRISE
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELED
+  PAST_DUE
+  TRIALING
+}
+
+model Subscription {
+  id                String             @id @default(cuid())
+  userId            String             @unique
+  plan              Plan               @default(BASIC)
+  status            SubscriptionStatus @default(TRIALING)
+  currentPeriodEnd  DateTime
+  cancelAtPeriodEnd Boolean            @default(false)
+  stripeCustomerId  String?            @unique
+  stripeSubscriptionId String?         @unique
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("subscriptions")
+}
+
+// ============================================
+// BOT CONFIGURATION
+// ============================================
+
+model BotInstance {
+  id        String   @id @default(cuid())
+  userId    String
+  botToken  String?  @unique
+  isActive  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  config        BotConfig?
+  conversations Conversation[]
+
+  @@map("bot_instances")
+}
+
+model BotConfig {
+  id             String   @id @default(cuid())
+  botInstanceId  String   @unique
+  welcomeMessage String   @default("Olá! Bem-vindo ao nosso atendimento. Como posso ajudar?")
+  menuItems      Json     @default("[]")
+  businessHours  Json     @default("{\"enabled\":false}")
+  autoReply      Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // Relations
+  botInstance BotInstance @relation(fields: [botInstanceId], references: [id], onDelete: Cascade)
+
+  @@map("bot_configs")
+}
+
+// ============================================
+// PRODUCTS & INVENTORY
+// ============================================
+
+model Product {
+  id          String   @id @default(cuid())
+  userId      String
+  name        String
+  description String?
+  price       Float
+  stock       Int      @default(0)
+  category    String?
+  image       String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([category])
+  @@map("products")
+}
+
+// ============================================
+// CUSTOMERS
+// ============================================
+
+model Customer {
+  id         String   @id @default(cuid())
+  userId     String
+  telegramId String?  @unique
+  name       String
+  phone      String?
+  address    String?
+  notes      String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relations
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orders        Order[]
+  conversations Conversation[]
+
+  @@index([userId])
+  @@index([telegramId])
+  @@map("customers")
+}
+
+// ============================================
+// ORDERS & SALES
+// ============================================
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PREPARING
+  READY
+  DELIVERED
+  CANCELED
+}
+
+enum PaymentMethod {
+  CASH
+  CREDIT_CARD
+  DEBIT_CARD
+  PIX
+  OTHER
+}
+
+model Order {
+  id            String        @id @default(cuid())
+  userId        String
+  customerId    String
+  total         Float
+  status        OrderStatus   @default(PENDING)
+  items         Json          // [{productId, name, price, quantity}]
+  paymentMethod PaymentMethod @default(CASH)
+  notes         String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  // Relations
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  customer Customer  @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  sale     Sale?
+
+  @@index([userId])
+  @@index([customerId])
+  @@index([status])
+  @@index([createdAt])
+  @@map("orders")
+}
+
+model Sale {
+  id            String        @id @default(cuid())
+  userId        String
+  orderId       String        @unique
+  total         Float
+  items         Json          // [{productId, name, price, quantity}]
+  paymentMethod PaymentMethod
+  createdAt     DateTime      @default(now())
+
+  // Relations
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([createdAt])
+  @@map("sales")
+}
+
+// ============================================
+// CONVERSATIONS & MESSAGES
+// ============================================
+
+enum MessageSender {
+  BOT
+  CUSTOMER
+  HUMAN
+}
+
+model Conversation {
+  id            String   @id @default(cuid())
+  botInstanceId String
+  customerId    String
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  botInstance BotInstance @relation(fields: [botInstanceId], references: [id], onDelete: Cascade)
+  customer    Customer    @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  messages    Message[]
+
+  @@index([botInstanceId])
+  @@index([customerId])
+  @@map("conversations")
+}
+
+model Message {
+  id             String        @id @default(cuid())
+  conversationId String
+  content        String
+  sender         MessageSender
+  metadata       Json?         // Extra data (buttons, images, etc)
+  createdAt      DateTime      @default(now())
+
+  // Relations
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId])
+  @@index([createdAt])
+  @@map("messages")
+}

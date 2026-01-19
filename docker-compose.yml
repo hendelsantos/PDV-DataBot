@@ -1,0 +1,53 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: botpdv-postgres
+    restart: unless-stopped
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_USER: botpdv
+      POSTGRES_PASSWORD: botpdv123
+      POSTGRES_DB: botpdv
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - botpdv-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: botpdv-redis
+    restart: unless-stopped
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - botpdv-network
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: botpdv-pgadmin
+    restart: unless-stopped
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@botpdv.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - botpdv-network
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
+  redis_data:
+  pgadmin_data:
+
+networks:
+  botpdv-network:
+    driver: bridge
