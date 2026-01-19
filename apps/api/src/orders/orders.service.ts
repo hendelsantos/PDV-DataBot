@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateOrderDto, UpdateOrderStatusDto } from './dto/order.dto';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class OrdersService {
@@ -27,7 +28,7 @@ export class OrdersService {
     }
 
     // Create order and update stock in a transaction
-    const order = await this.prisma.$transaction(async (prisma) => {
+    const order = await this.prisma.$transaction(async (prisma: Prisma.TransactionClient) => {
       // Create order
       const newOrder = await prisma.order.create({
         data: {
