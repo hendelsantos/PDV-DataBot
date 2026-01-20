@@ -7,22 +7,37 @@ export class RedisService implements OnModuleInit {
   private client: Redis;
 
   async onModuleInit() {
-    this.client = new Redis({
-      host: process.env.REDIS_HOST || 'localhost',
-      port: parseInt(process.env.REDIS_PORT || '6380'),
-      password: process.env.REDIS_PASSWORD || undefined,
-      retryStrategy: (times) => {
-        const delay = Math.min(times * 50, 2000);
-        return delay;
-      },
-    });
+    const redisUrl = process.env.REDIS_URL;
+
+    if (redisUrl) {
+      // Railway provides a single REDIS_URL
+      this.logger.log('Using REDIS_URL for connection');
+      this.client = new Redis(redisUrl, {
+        retryStrategy: (times) => {
+          const delay = Math.min(times * 50, 2000);
+          return delay;
+        },
+      });
+    } else {
+      // Fallback to individual env vars for local dev
+      this.logger.log('Using REDIS_HOST/PORT for connection');
+      this.client = new Redis({
+        host: process.env.REDIS_HOST || 'localhost',
+        port: parseInt(process.env.REDIS_PORT || '6380'),
+        password: process.env.REDIS_PASSWORD || undefined,
+        retryStrategy: (times) => {
+          const delay = Math.min(times * 50, 2000);
+          return delay;
+        },
+      });
+    }
 
     this.client.on('connect', () => {
       this.logger.log('✅ Connected to Redis');
     });
 
     this.client.on('error', (err) => {
-      this.logger.error('❌ Redis connection error:', err);
+      this.logger.error('❌ Redis connection error:', err.message);
     });
   }
 

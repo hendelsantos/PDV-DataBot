@@ -8,7 +8,8 @@ cmds = [
 
 [phases.build]
 cmds = [
-  'npx prisma generate --schema=./packages/database/prisma/schema.prisma',
+  'npm ci',
+  'cd packages/database && npx prisma generate',
   'npm run build --workspace=bot'
 ]
 
