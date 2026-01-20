@@ -19,18 +19,29 @@ export class TelegramService implements OnModuleInit {
 
     this.bot = new Telegraf(token);
 
-    this.registerCommands();
-    this.registerCallbacks();
-    this.registerTextHandlers();
+    try {
+      // Verify token is valid
+      const botInfo = await this.bot.telegram.getMe();
+      this.logger.log(`✅ Authorized as @${botInfo.username}`);
 
-    // Start bot
-    await this.bot.launch();
+      this.registerCommands();
+      this.registerCallbacks();
+      this.registerTextHandlers();
 
-    this.logger.log('✅ Telegram bot started successfully');
+      // Start bot
+      await this.bot.launch();
 
-    // Enable graceful stop
-    process.once('SIGINT', () => this.bot.stop('SIGINT'));
-    process.once('SIGTERM', () => this.bot.stop('SIGTERM'));
+      this.logger.log('✅ Telegram bot started successfully');
+
+      // Enable graceful stop
+      process.once('SIGINT', () => this.bot.stop('SIGINT'));
+      process.once('SIGTERM', () => this.bot.stop('SIGTERM'));
+    } catch (error) {
+      this.logger.error('❌ Failed to start Telegram bot:', error);
+      if (error.code === 409) {
+        this.logger.error('👉 This usually means another instance is running. Check for zombie processes.');
+      }
+    }
   }
 
   private registerCommands() {

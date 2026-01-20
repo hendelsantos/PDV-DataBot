@@ -8,7 +8,7 @@ async function bootstrap() {
   try {
     const app = await NestFactory.create(BotModule);
     
-    const port = process.env.BOT_PORT || 3002;
+    const port = process.env.PORT || process.env.BOT_PORT || 3002;
     await app.listen(port);
     
     logger.log(`🤖 Bot service is running on port ${port}`);
