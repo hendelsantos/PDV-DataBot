@@ -28,6 +28,9 @@ export class TelegramService implements OnModuleInit {
       this.registerCallbacks();
       this.registerTextHandlers();
 
+      // Ensure no webhook is set (conflict with polling)
+      await this.bot.telegram.deleteWebhook();
+
       // Start bot
       await this.bot.launch();
 

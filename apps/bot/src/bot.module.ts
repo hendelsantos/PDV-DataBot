@@ -4,6 +4,7 @@ import { TelegramModule } from './telegram/telegram.module';
 import { RedisModule } from './redis/redis.module';
 import { ApiClientModule } from './api-client/api-client.module';
 import { CartModule } from './cart/cart.module';
+import { HealthController } from './health.controller';
 
 @Module({
   imports: [
@@ -16,5 +17,6 @@ import { CartModule } from './cart/cart.module';
     CartModule,
     TelegramModule,
   ],
+  controllers: [HealthController],
 })
 export class BotModule {}
