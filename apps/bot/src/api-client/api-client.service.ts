@@ -44,14 +44,14 @@ export class ApiClientService {
 
   constructor() {
     this.client = axios.create({
-      baseURL: process.env.API_BASE_URL || 'http://localhost:3001',
+      baseURL: process.env.API_URL || process.env.API_BASE_URL || 'http://localhost:3001',
       timeout: 10000,
       headers: {
         'Content-Type': 'application/json',
       },
     });
 
-    this.logger.log(`API Client initialized: ${process.env.API_BASE_URL}`);
+    this.logger.log(`API Client initialized: ${process.env.API_URL || process.env.API_BASE_URL}`);
   }
 
   // Products
