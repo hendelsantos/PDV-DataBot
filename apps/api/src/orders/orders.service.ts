@@ -2,10 +2,14 @@ import { Injectable, NotFoundException, BadRequestException } from '@nestjs/comm
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateOrderDto, UpdateOrderStatusDto } from './dto/order.dto';
 import { Prisma } from '@prisma/client';
+import { NotificationsService } from '../notifications/notifications.service';
 
 @Injectable()
 export class OrdersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private notificationsService: NotificationsService,
+  ) {}
 
   async create(createOrderDto: CreateOrderDto) {
     const { userId, customerId, total, items, paymentMethod, notes } = createOrderDto;
@@ -70,6 +74,9 @@ export class OrdersService {
 
       return newOrder;
     });
+
+    // Send real-time notification to user
+    this.notificationsService.notifyNewOrder(userId, order);
 
     return order;
   }
