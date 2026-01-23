@@ -46,6 +46,15 @@ export const authApi = {
     api.post('/auth/login', { email, password }),
   register: (data: { email: string; password: string; name: string; phone?: string }) =>
     api.post('/auth/register', data),
+  getMe: () => api.get('/auth/me'),
+  updateProfile: (data: { name?: string; phone?: string }) =>
+    api.patch('/auth/profile', data),
+  changePassword: (data: { oldPassword: string; newPassword: string }) =>
+    api.patch('/auth/change-password', data),
+  forgotPassword: (email: string) =>
+    api.post('/auth/forgot-password', { email }),
+  resetPassword: (data: { token: string; newPassword: string }) =>
+    api.post('/auth/reset-password', data),
 };
 
 // Products API

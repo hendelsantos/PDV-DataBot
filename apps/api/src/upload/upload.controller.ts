@@ -11,7 +11,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { Response } from 'express';
+import type { Response } from 'express';
 import * as fs from 'fs';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { UploadService } from './upload.service';

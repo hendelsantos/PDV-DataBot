@@ -1,0 +1,611 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bot-PDV - Plano de Negócio e Documentação</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 40px 20px;
+        background: #fff;
+      }
+
+      @media print {
+        body {
+          padding: 20px;
+          font-size: 11pt;
+        }
+        .page-break {
+          page-break-before: always;
+        }
+      }
+
+      .cover {
+        text-align: center;
+        padding: 100px 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        margin: -40px -20px 40px -20px;
+        border-radius: 0 0 20px 20px;
+      }
+
+      .cover h1 {
+        font-size: 3em;
+        margin-bottom: 10px;
+      }
+
+      .cover .subtitle {
+        font-size: 1.5em;
+        opacity: 0.9;
+      }
+
+      .cover .date {
+        margin-top: 40px;
+        opacity: 0.8;
+      }
+
+      h1 {
+        color: #667eea;
+        border-bottom: 3px solid #667eea;
+        padding-bottom: 10px;
+        margin: 40px 0 20px 0;
+      }
+
+      h2 {
+        color: #444;
+        margin: 30px 0 15px 0;
+      }
+
+      h3 {
+        color: #666;
+        margin: 20px 0 10px 0;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      th,
+      td {
+        padding: 12px 15px;
+        text-align: left;
+        border: 1px solid #ddd;
+      }
+
+      th {
+        background: #667eea;
+        color: white;
+      }
+
+      tr:nth-child(even) {
+        background: #f8f9fa;
+      }
+
+      .highlight-box {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        padding: 20px;
+        border-radius: 10px;
+        margin: 20px 0;
+        border-left: 5px solid #667eea;
+      }
+
+      .price-card {
+        display: inline-block;
+        width: 30%;
+        padding: 20px;
+        margin: 10px 1%;
+        background: #fff;
+        border: 2px solid #ddd;
+        border-radius: 15px;
+        text-align: center;
+        vertical-align: top;
+      }
+
+      .price-card.featured {
+        border-color: #667eea;
+        transform: scale(1.05);
+      }
+
+      .price-card h3 {
+        color: #667eea;
+      }
+
+      .price-card .price {
+        font-size: 2em;
+        color: #333;
+        margin: 10px 0;
+      }
+
+      .architecture {
+        background: #1a1a2e;
+        color: #eee;
+        padding: 20px;
+        border-radius: 10px;
+        font-family: monospace;
+        white-space: pre;
+        overflow-x: auto;
+        font-size: 12px;
+      }
+
+      ul,
+      ol {
+        margin: 15px 0 15px 30px;
+      }
+
+      li {
+        margin: 8px 0;
+      }
+
+      .check {
+        color: #28a745;
+      }
+
+      .metric-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+        margin: 20px 0;
+      }
+
+      .metric {
+        text-align: center;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 10px;
+      }
+
+      .metric .number {
+        font-size: 2em;
+        color: #667eea;
+        font-weight: bold;
+      }
+
+      .metric .label {
+        color: #666;
+        font-size: 0.9em;
+      }
+
+      .quote {
+        font-style: italic;
+        background: #f0f0f0;
+        padding: 20px;
+        border-radius: 10px;
+        margin: 20px 0;
+        position: relative;
+      }
+
+      .quote::before {
+        content: '"';
+        font-size: 4em;
+        color: #667eea;
+        position: absolute;
+        top: -10px;
+        left: 10px;
+        opacity: 0.3;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="cover">
+      <h1>🤖 Bot-PDV</h1>
+      <p class="subtitle">Plano de Negócio e Documentação Técnica</p>
+      <p class="date">Janeiro 2026</p>
+    </div>
+
+    <h1>📋 Sumário Executivo</h1>
+
+    <div class="highlight-box">
+      <strong>O que é:</strong> Plataforma SaaS que automatiza vendas e
+      atendimento de pequenos negócios através de um bot no Telegram, com painel
+      administrativo completo.
+    </div>
+
+    <div class="metric-grid">
+      <div class="metric">
+        <div class="number">24/7</div>
+        <div class="label">Atendimento</div>
+      </div>
+      <div class="metric">
+        <div class="number">R$49</div>
+        <div class="label">A partir de</div>
+      </div>
+      <div class="metric">
+        <div class="number">89%</div>
+        <div class="label">Margem de Lucro</div>
+      </div>
+      <div class="metric">
+        <div class="number">10min</div>
+        <div class="label">Setup</div>
+      </div>
+    </div>
+
+    <h1>🎯 Problema e Solução</h1>
+
+    <h2>Problema</h2>
+    <ul>
+      <li>Pequenos negócios perdem vendas por não atender 24 horas</li>
+      <li>Donos gastam tempo demais respondendo mensagens</li>
+      <li>Falta de organização causa erros nos pedidos</li>
+      <li>Custo alto para contratar atendentes</li>
+    </ul>
+
+    <h2>Solução</h2>
+    <p>
+      Um <strong>bot inteligente</strong> que atende clientes automaticamente,
+      recebe pedidos e notifica o dono em tempo real.
+    </p>
+
+    <div class="page-break"></div>
+
+    <h1>⚙️ Funcionalidades</h1>
+
+    <h2>Para o Cliente Final (Bot Telegram)</h2>
+    <table>
+      <tr>
+        <th>Funcionalidade</th>
+        <th>Descrição</th>
+      </tr>
+      <tr>
+        <td>📋 Ver Catálogo</td>
+        <td>Lista produtos com preços e fotos</td>
+      </tr>
+      <tr>
+        <td>🛒 Carrinho</td>
+        <td>Adiciona/remove itens, visualiza total</td>
+      </tr>
+      <tr>
+        <td>💳 Pagamento</td>
+        <td>Escolhe forma de pagamento</td>
+      </tr>
+      <tr>
+        <td>📦 Pedidos</td>
+        <td>Acompanha status do pedido</td>
+      </tr>
+      <tr>
+        <td>💬 Atendimento</td>
+        <td>Mensagens automáticas personalizadas</td>
+      </tr>
+    </table>
+
+    <h2>Para o Dono (Painel Web)</h2>
+    <table>
+      <tr>
+        <th>Funcionalidade</th>
+        <th>Descrição</th>
+      </tr>
+      <tr>
+        <td>📊 Dashboard</td>
+        <td>Visão geral: vendas, pedidos, clientes</td>
+      </tr>
+      <tr>
+        <td>📦 Produtos</td>
+        <td>Cadastro com foto, preço, estoque</td>
+      </tr>
+      <tr>
+        <td>🛒 Pedidos</td>
+        <td>Gestão em tempo real</td>
+      </tr>
+      <tr>
+        <td>👥 Clientes</td>
+        <td>Base capturada automaticamente</td>
+      </tr>
+      <tr>
+        <td>🤖 Config Bot</td>
+        <td>Mensagens, horário de funcionamento</td>
+      </tr>
+      <tr>
+        <td>🔔 Notificações</td>
+        <td>Alerta sonoro para novos pedidos</td>
+      </tr>
+    </table>
+
+    <div class="page-break"></div>
+
+    <h1>🏗️ Arquitetura Técnica</h1>
+
+    <div class="architecture">
+      ┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐ │ Cliente │ │
+      Bot Telegram │ │ Painel Web │ │ (Telegram) │────▶│ (Node.js) │ │ (Next.js)
+      │ └─────────────────┘ └────────┬────────┘ └────────┬────────┘ │ │ ▼ ▼
+      ┌─────────────────────────────────────┐ │ API Backend │ │ (NestJS) │
+      └─────────────────┬───────────────────┘ │
+      ┌─────────────────┼───────────────────┐ ▼ ▼ ▼ ┌──────────┐ ┌──────────┐
+      ┌──────────┐ │PostgreSQL│ │ Redis │ │ Upload │ │ (Dados) │ │ (Cache) │ │
+      (Imagens)│ └──────────┘ └──────────┘ └──────────┘
+    </div>
+
+    <h2>Stack Tecnológica</h2>
+    <table>
+      <tr>
+        <th>Camada</th>
+        <th>Tecnologia</th>
+      </tr>
+      <tr>
+        <td>Frontend</td>
+        <td>Next.js 16, React 19, Tailwind CSS</td>
+      </tr>
+      <tr>
+        <td>Backend</td>
+        <td>NestJS, Prisma ORM, JWT</td>
+      </tr>
+      <tr>
+        <td>Bot</td>
+        <td>Telegraf (Telegram Bot API)</td>
+      </tr>
+      <tr>
+        <td>Banco de Dados</td>
+        <td>PostgreSQL</td>
+      </tr>
+      <tr>
+        <td>Cache</td>
+        <td>Redis</td>
+      </tr>
+      <tr>
+        <td>Deploy</td>
+        <td>Railway (API/Bot), Vercel (Frontend)</td>
+      </tr>
+    </table>
+
+    <div class="page-break"></div>
+
+    <h1>💼 Modelo de Negócio</h1>
+
+    <h2>Público-Alvo</h2>
+    <ul>
+      <li>Restaurantes e lanchonetes</li>
+      <li>Pizzarias e hamburguerias</li>
+      <li>Lojas de delivery</li>
+      <li>Pequenos comércios locais</li>
+      <li>Food trucks</li>
+    </ul>
+
+    <h2>Planos e Preços</h2>
+
+    <div style="text-align: center; margin: 30px 0">
+      <div class="price-card">
+        <h3>Básico</h3>
+        <div class="price">R$ 49,90</div>
+        <p>/mês</p>
+        <ul style="text-align: left; list-style: none; margin: 20px 0">
+          <li>✓ 1 bot</li>
+          <li>✓ 100 produtos</li>
+          <li>✓ Suporte email</li>
+        </ul>
+      </div>
+
+      <div class="price-card featured">
+        <h3>Profissional</h3>
+        <div class="price">R$ 99,90</div>
+        <p>/mês</p>
+        <ul style="text-align: left; list-style: none; margin: 20px 0">
+          <li>✓ 1 bot</li>
+          <li>✓ Produtos ilimitados</li>
+          <li>✓ Suporte WhatsApp</li>
+          <li>✓ Relatórios</li>
+        </ul>
+      </div>
+
+      <div class="price-card">
+        <h3>Empresarial</h3>
+        <div class="price">R$ 199,90</div>
+        <p>/mês</p>
+        <ul style="text-align: left; list-style: none; margin: 20px 0">
+          <li>✓ Múltiplos bots</li>
+          <li>✓ White-label</li>
+          <li>✓ API acesso</li>
+          <li>✓ Suporte prioritário</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <h1>📈 Projeção Financeira</h1>
+
+    <h2>Cenário Ano 1 (Conservador)</h2>
+    <table>
+      <tr>
+        <th>Mês</th>
+        <th>Clientes</th>
+        <th>Receita Mensal</th>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>10</td>
+        <td>R$ 500</td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td>30</td>
+        <td>R$ 1.500</td>
+      </tr>
+      <tr>
+        <td>9</td>
+        <td>60</td>
+        <td>R$ 3.000</td>
+      </tr>
+      <tr>
+        <td>12</td>
+        <td>100</td>
+        <td>R$ 5.000</td>
+      </tr>
+    </table>
+
+    <h2>Custos Fixos Mensais</h2>
+    <table>
+      <tr>
+        <th>Item</th>
+        <th>Custo</th>
+      </tr>
+      <tr>
+        <td>Railway (API + Bot + BD)</td>
+        <td>~R$ 50</td>
+      </tr>
+      <tr>
+        <td>Vercel (Frontend)</td>
+        <td>R$ 0</td>
+      </tr>
+      <tr>
+        <td>Domínio</td>
+        <td>~R$ 5</td>
+      </tr>
+      <tr>
+        <td><strong>Total</strong></td>
+        <td><strong>~R$ 55/mês</strong></td>
+      </tr>
+    </table>
+
+    <div class="highlight-box">
+      <strong>Margem de Lucro:</strong>
+      <ul>
+        <li>Com 10 clientes: R$ 500 - R$ 55 = <strong>R$ 445 (89%)</strong></li>
+        <li>
+          Com 100 clientes: R$ 5.000 - R$ 100 = <strong>R$ 4.900 (98%)</strong>
+        </li>
+      </ul>
+    </div>
+
+    <h1>🚀 Estratégia de Crescimento</h1>
+
+    <h2>Fase 1: Validação (Mês 1-3)</h2>
+    <ul>
+      <li>Conseguir 10 clientes beta</li>
+      <li>Coletar feedback intenso</li>
+      <li>Ajustar produto</li>
+    </ul>
+
+    <h2>Fase 2: Tração (Mês 4-6)</h2>
+    <ul>
+      <li>Landing page profissional</li>
+      <li>Marketing Instagram/TikTok</li>
+      <li>Integrar PIX automático</li>
+    </ul>
+
+    <h2>Fase 3: Escala (Mês 7-12)</h2>
+    <ul>
+      <li>Programa de indicação</li>
+      <li>Integração iFood/Rappi</li>
+      <li>Expansão para outras cidades</li>
+    </ul>
+
+    <div class="page-break"></div>
+
+    <h1>🎯 Como Vender</h1>
+
+    <h2>Pitch de 30 segundos</h2>
+    <div class="quote">
+      Seu negócio perde vendas porque não consegue atender todos os clientes no
+      WhatsApp? O Bot-PDV é um robô que atende seus clientes 24 horas, recebe
+      pedidos e te notifica em tempo real. Você vende mais gastando menos. Custa
+      menos que um dia de atendente.
+    </div>
+
+    <h2>Canais de Aquisição</h2>
+    <ol>
+      <li>
+        <strong>Instagram/TikTok</strong> - Vídeos mostrando o bot funcionando
+      </li>
+      <li><strong>Indicação</strong> - Clientes satisfeitos indicam outros</li>
+      <li>
+        <strong>Visita presencial</strong> - Demonstrar em comércios locais
+      </li>
+      <li>
+        <strong>Google Ads</strong> - "bot para delivery", "automação
+        restaurante"
+      </li>
+      <li><strong>Grupos de empresários</strong> - Facebook, Telegram</li>
+    </ol>
+
+    <h1>🎯 Diferenciais Competitivos</h1>
+
+    <table>
+      <tr>
+        <th>#</th>
+        <th>Diferencial</th>
+        <th>Benefício</th>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>Preço acessível</td>
+        <td>3x mais barato que concorrentes</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Simples de usar</td>
+        <td>Configuração em 10 minutos</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>Tempo real</td>
+        <td>Nunca perde um pedido</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>Multi-tenant</td>
+        <td>Cada cliente tem ambiente isolado</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>Código próprio</td>
+        <td>Controle total, sem dependência</td>
+      </tr>
+    </table>
+
+    <div class="page-break"></div>
+
+    <h1>📋 Checklist para Lançamento</h1>
+
+    <table>
+      <tr>
+        <th>Item</th>
+        <th>Status</th>
+      </tr>
+      <tr>
+        <td>Sistema funcionando (API, Bot, Web)</td>
+        <td class="check">✅ Concluído</td>
+      </tr>
+      <tr>
+        <td>Deploy em produção</td>
+        <td class="check">✅ Concluído</td>
+      </tr>
+      <tr>
+        <td>Landing page de vendas</td>
+        <td>⏳ Pendente</td>
+      </tr>
+      <tr>
+        <td>Página de preços</td>
+        <td>⏳ Pendente</td>
+      </tr>
+      <tr>
+        <td>Sistema de pagamentos</td>
+        <td>⏳ Pendente</td>
+      </tr>
+      <tr>
+        <td>Primeiro cliente pagante</td>
+        <td>⏳ Pendente</td>
+      </tr>
+    </table>
+
+    <hr style="margin: 40px 0" />
+
+    <p style="text-align: center; color: #666">
+      <strong>Bot-PDV</strong> - Desenvolvido por Hendel Santos<br />
+      github.com/hendelsantos/PDV-DataBot<br /><br />
+      <em>Documento gerado em Janeiro 2026</em>
+    </p>
+  </body>
+</html>
