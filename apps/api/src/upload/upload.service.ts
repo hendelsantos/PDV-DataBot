@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import * as fs from 'fs';
 import * as path from 'path';
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID } from 'crypto';
 
 @Injectable()
 export class UploadService {
@@ -17,7 +17,7 @@ export class UploadService {
 
   async saveFile(file: Express.Multer.File): Promise<string> {
     const ext = path.extname(file.originalname);
-    const filename = `${uuidv4()}${ext}`;
+    const filename = `${randomUUID()}${ext}`;
     const filepath = path.join(this.uploadDir, filename);
 
     fs.writeFileSync(filepath, file.buffer);
@@ -34,7 +34,7 @@ export class UploadService {
     const buffer = Buffer.from(base64, 'base64');
     
     const ext = path.extname(filename) || '.png';
-    const newFilename = `${uuidv4()}${ext}`;
+    const newFilename = `${randomUUID()}${ext}`;
     const filepath = path.join(this.uploadDir, newFilename);
 
     fs.writeFileSync(filepath, buffer);
